@@ -13,6 +13,15 @@
   }
 }
 
+ @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap'); 
+  *{
+    font-family: 'Poppins', sans-serif;
+  }
+
+ 
+  @import url('https://fonts.googleapis.com/css2?family=Kanit:wght@400;500&family=Poppins:wght@300;500;600;700&display=swap');
+
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
@@ -35,4 +44,334 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.slick-slide > div {
+  margin: 0 10px;
+}
+.slick-list {
+  margin: 0 -10px;
+}
+
+.card {
+  border: 1px solid #fff;
+  background:rgb(242, 236, 197);
+  border-radius: 8px;
+  overflow: hidden;
+   max-width: 200px;
+  color: darkslategray;
+  cursor: pointer;
+}
+
+.card-top h1 {
+  font-size: 0.9rem;
+  margin: 20px;
+}
+
+.card-top > img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  background: rgb(245, 216, 216);
+}
+
+.card-bottom {
+  margin: 10px 20px;
+}
+
+.category {
+  position: relative;
+}
+.category::before {
+  content: '';
+  background: rgb(255, 61, 61);
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  right: 0;
+  height: 2px;
+}
+ 
+
+.jumbobg{
+  background-color: #6C4AB6 !important;
+}
+
+.jumboimg{ 
+    width: 23%;
+  
+}
+
+.banner{
+  background-color: #FAE3E3;
+}
+
+.banner-text{
+  
+  padding: 15%;
+  margin-bottom: 0px;
+  color: #8d0a2f;
+}
+
+
+.banner-top{
+  border-top-left-radius: 40px;  
+  border-top-right-radius: 40px;
+  background: #ffffff;
+  padding: 0px; 
+  width: 100%;
+  height: 44px;  
+  margin-bottom: 0;
+}
+
+.fs-search{
+  margin-right: 31px;
+  margin-left: 31px;
+  
+}
+
+.inner-addon { 
+  position: relative; 
+}
+
+/* style icon */
+.inner-addon .glyphicon {
+position: absolute;
+padding: 10px;
+pointer-events: none;
+}
+
+.left-addon .glyphicon  { left:  20px;}
+.right-addon .glyphicon { right: 0px;}
+
+/* add padding  */
+.left-addon input  { padding-left:  30px; }
+.right-addon input { padding-right: 30px; }
+
+.zin{
+  z-index: -1;
+}
+
+.ms-n5 {
+  margin-left: 80px;
+}
+
+.search{  
+  display: block;
+    padding: 0.375rem 0.75rem;
+    width: 100%;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ffffff;
+    appearance: none;
+    border-radius: 100px;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  
+}
+
+.searchicon{
+  background-color:transparent !important;
+  border-width: 0px !important;
+  margin-left: 0px;
+}
+
+.isearch{
+  background-color: transparent  !important;
+  /*border-left-width: 0px !important;*/
+  margin-left: -40px !important;
+  padding-left: 40px !important; 
+  font-size: 14px !important;
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+  height: 48px !important;
+
+}
+
+.titleEditor{
+  margin-top: 23px;
+  margin-left: 31px;
+  font-family: 'Kanit';
+font-style: normal;
+font-weight: 400;
+font-size: 20px;
+line-height: 24px;
+font-family: 'Kanit', sans-serif;
+
+}
+
+.editordate{
+  font-size: 14px;
+  color: #b0b3b6;
+}
+
+.category { 
+  background-color:#BFACE0 !important;
+  color:#645CAA !important;
+}
+ 
+.buttonall {
+  background-color: #EBC7E8 !important;
+  color: #645CAA !important;
+}
+
+.editor{
+  background-color: #ffffff !important;
+}
+.viewbookdetail{
+  color: #2856a5 !important;
+  margin-bottom: 2px !important;
+  font-size: 14px;
+}
+.viewbookdetailContent{ 
+  margin-bottom: 8px !important;
+  font-size: 14px;
+}
+
+.forma  {
+  margin-bottom: -1px !important;
+  border-bottom-right-radius: 0 !important;;
+  border-bottom-left-radius: 0 !important;;
+}
+
+.formb {
+  margin-bottom: 10px !important;;
+  border-top-left-radius: 0 !important;;
+  border-top-right-radius: 0 !important;;
+}
+
+.containerl {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  background-color: #282c34;
+}
+
+
+.review {
+  font-size: 80% !important;
+}
+
+.reviewed {
+  font-size: 70% !important;
+  color: #6C4AB6;
+}
+
+.authorrev{
+  font-size: 82% !important;
+  color: darkgreen !important;
+}
+
+.resp{
+  width: 100% !important;
+  height: auto !important;
+}
+
+.disc{
+  background-color: rgb(242, 236, 197);
+  font-size: 65% !important;
+}
+
+
+.cart{ 
+  font-size: 88% !important;
+}
+
+.cartcount{ 
+  font-size: 85% !important;
+
+}
+
+
+.btn-cart{
+  --bs-btn-padding-y: .25rem !important;
+   --bs-btn-padding-x: .5rem !important;
+    --bs-btn-font-size: .75rem !important;
+}
+
+.checkout{
+  overflow: hidden!important;
+  border-color: #BFACE0 !important;
+  background-color: rgb(239, 239, 239)!important;
+  position: fixed!important;
+  bottom: 0!important;
+  width: 100%!important;
+}
+
+.wrapper{
+   max-width: 1000px !important;
+   margin:0 auto !important;
+}
+
+.project {
+  display: flex !important;
+}
+
+.shop{
+  flex :85% !important;
+}
+.box{
+  display: flex !important;
+  width: 100% !important;
+  height: 200px !important;
+  overflow: hidden !important;
+  margin-bottom: 20px !important;
+    
+}
+
+.ss{
+  border-width: 1px !important;
+  border-style: solid !important;
+  border-color: #6C4AB6!important;
+}
+
+.sd{
+  border-width: 1px !important;
+  border-style: solid !important;
+  border-color: #8d0a2f!important;
+}
+
+.checkoutw{
+  max-width: 85% !important;
+  margin:0 auto !important;
+}
+  
+
+input, textarea{
+  background-color:rgb(212, 231, 241) !important;
+  color: rgb(3, 0, 0);
+}
+
+.carddesc{ 
+  line-height: 1.7 !important;
+} 
+
+.cardmx{
+   max-width: 100% !important;
+   margin-left: 20px !important;
+   margin-right: 20px !important;   
+}
+
+.leftm{
+  margin-left: 18px !important;
+}
+
+.cardm{
+  margin-left: 30px !important;
+  margin-top: 18px !important;
+}
+
+.bookshome{
+  margin-left: 1.1rem !important;  
+  margin-right: 1.1rem !important;
+}
+
+.bookDetailpic{
+  width: 100%;
+    max-height: 305px;
+    -o-object-fit: contain;
+    object-fit: contain;
 }

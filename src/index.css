@@ -11,3 +11,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+input, textarea{
+  background-color:rgb(101, 203, 254);
+  color: rgb(3, 0, 0);
+}
