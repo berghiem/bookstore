@@ -333,7 +333,8 @@ export default function AddBookForm() {
                             <div className="row">
                                 <div className="col">
                                     <table>
-                                        
+                                        <thead> <tr> <th></th><th></th><th></th> </tr> 
+                                        </thead>
                                         <tr>
                                             <td>
                                                 <div className="card"  >

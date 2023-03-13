@@ -5,14 +5,47 @@ import { Fetch } from "./Fetch";
 import { BsSearch } from 'react-icons/bs';
 import { Link } from "react-router-dom";
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useLocation } from "react-router-dom";
+
 export default function Booklist(
 
 ) {
+
+    var {state} = useLocation();
+
+    if(state){
+        console.log(`uselocation : ${JSON.stringify(state)}`)
+        var {m} = state;
+        console.log(`m : ${JSON.stringify(m)}`)
+        var {message} = m;
+        console.log(`message : ${JSON.stringify(message)}`)
+        toast(message)
+    }
+
+
+    var notify = (state) ={
+        if(state){
+             console.log(`state dari sebelumnya : ${state}`)
+          //  const {message} = state;
+           
+        }
+    }
+ 
+    // const notify = (message) => {s
+    //      if(message){
+    //         toast(message)
+    //      }
+    // }
 
     return (
 
         <>
             <div className="row  m-4">
+                
+                <ToastContainer />
+
                 <h2>All Book</h2>
                 <p>Home &gt; All Book</p>
             </div>

@@ -8,7 +8,7 @@ export function Fetch(
         loadingFallback = <p>loading...</p>,
         renderError = error =>(
             <pre>eror kenapa</pre>
-        )
+        )                      
     }
 ){
 

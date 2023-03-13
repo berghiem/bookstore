@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useParams, Navigate, useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 export default function EditBookForm() {
@@ -28,6 +30,7 @@ export default function EditBookForm() {
 
     const [data, setData] = useState();
     const [isSuccess, setSuccess] = useState(false);
+    const [message, setMessage] = useState("");
 
     useEffect(() => {
         if (!uri) return;
@@ -84,23 +87,29 @@ export default function EditBookForm() {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
             }
-        })
-            .then(() => setSuccess(true))
-            .catch((
-                <pre>Failed insert </pre>
-            ));
+        }).then(m => m.json())
+            .then(m => {
+                //setMessage(JSON.stringify(m));
+              //  toast(JSON.stringify(m));
+                console.log(`${m}`) 
+                navigate("/booklist",{state : {m}})
+            })
+             
 
+
+            .catch(error => (setMessage(error))
+            );
 
     };
 
-    const message = () => {
-        if (isSuccess) {
-            console.log("berhasil");
-            return <Success />;
-        }
-        console.log("gagal");
-        return <Fail />;
-    }
+    // const message = () => {
+    //     if (isSuccess) {
+    //         console.log("berhasil");
+    //         return <Success />;
+    //     }
+    //     console.log("gagal");
+    //     return <Fail />;
+    // }
 
     return (
 
@@ -252,7 +261,7 @@ export default function EditBookForm() {
                                             <div className="d-grid gap-2 col-lg-6 mx-auto  mt-5">
                                                 <button className="btn btn-primary" >Save Book</button>
                                             </div>
-                                            {message}
+
                                         </form>
 
 
@@ -428,6 +437,8 @@ export default function EditBookForm() {
                         </div> */}
                 </div>
             </div>
+ 
+
         </>
 
 
@@ -442,13 +453,13 @@ export default function EditBookForm() {
 
 const Success = () => (
     <> <p>Berhasil Update</p></>
-   
+
 );
 
 const Fail = () => (
     <><p>Gagal Update</p>
     </>
-    
+
 );
 
 

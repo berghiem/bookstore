@@ -20,6 +20,7 @@
     "react-scripts": "5.0.1",
     "react-slick": "^0.29.0",
     "react-table-css-unit": "^0.1.1",
+    "react-toastify": "^9.1.1",
     "react-validation": "^3.0.7",
     "react-xml-parser": "^1.1.8",
     "redux": "^4.2.0",
@@ -53,5 +54,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy":"http://localhost:8080"
+  "proxy": "http://localhost:8080"
 }

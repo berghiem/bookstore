@@ -15,9 +15,7 @@ export default function Book(
         publisher,
        
     }) {
-
-    //  const {removeBook} = useBooks();
-console.log(`auhtor ${author}`);
+ 
     return (
         <>
             <td>{id}</td>
