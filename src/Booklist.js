@@ -50,7 +50,7 @@ export default function Booklist(
                 <p>Home &gt; All Book</p>
             </div>
             <div className=" d-flex p-3">
-                <div> <Link to="/addBook" class="btn btn-primary px-3">Add Book</Link>
+                <div> <Link to="/addBook" className="btn btn-primary px-3">Add Book</Link>
                 </div>
                 <div className="flex-grow-1">
                     {/* Search Form */}

@@ -94,10 +94,7 @@ export default function EditBookForm() {
                 console.log(`${m}`) 
                 navigate("/booklist",{state : {m}})
             })
-             
-
-
-            .catch(error => (setMessage(error))
+                       .catch(error => (setMessage(error))
             );
 
     };

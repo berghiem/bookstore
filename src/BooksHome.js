@@ -71,7 +71,9 @@ export default function BooksHome({
                                     <Link to={`/bookDetail/${d.bookId}`} style={{ textDecoration: 'none' }}>
                                         <div className="col">
                                             <div className="card border-0  justify-content-center">
-                                                <img src={require(`${d.picture}`)}  alt="..." className="card-img-top" />
+                                                <img 
+                                                //src={require(`${d.picture}`)}  
+                                                alt="..." className="card-img-top" />
                                                 
                                             </div>
                                             <p className="card-text carddesc fs-6">{d.title.substring(0, 30)}<br/>

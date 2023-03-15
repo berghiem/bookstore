@@ -82,7 +82,9 @@ function EditorsChoiceBooks(
                     <div className="card mt-3 mb-3 shadow-sm cardmx"  >
                       <div className="d-flex g-0 ">
                         <div className="flex p-0 m-2">
-                          <img src={require(`${d.book.picture}`)} width="75px" height="100px" alt="..." />
+                          <img 
+                         //src={require(`${d.book.picture}`)} 
+                          width="75px" height="100px" alt="..." />
                         </div>
                         <div className="flex-fill">
                           <div className="card-body p-0 m-2">

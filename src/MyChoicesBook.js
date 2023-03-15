@@ -15,7 +15,9 @@ export function MyChoicesBook() {
                     <div className="container mt-4 px-4">
                         <div className="row">
                             <div className="col-3  col-lg-1" >
-                                <img src={require("./lifeOfPi.jpg")} width="75px" height="100px" />
+                                <img 
+                               // src={require("./lifeOfPi.jpg")}
+                                 width="75px" height="100px" />
                             </div>
                             <div className="col mx-3">
                                 <div className="d-flex flex-column">

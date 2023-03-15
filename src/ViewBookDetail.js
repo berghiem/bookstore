@@ -56,7 +56,9 @@ function BookDetail({ data }) {
             <div className="d-lg-flex justify-content-center">
                 <div className="d-flex flex-column justify-content-center">
                     <div>
-                    <img src={require(`${data.bookModel.picture}`)} className="bookDetailpic" />
+                    <img 
+                    //src={require(`${data.bookModel.picture}`)}
+                     className="bookDetailpic" />
                     </div>
                     <div className="d-flex justify-content-center mt-3">
                         <GrFavorite size={18} className="mt-1" />&nbsp;1000 favorit
@@ -118,7 +120,9 @@ function BookDetail({ data }) {
                 <div className="container mt-4 px-4">
                     <div className="row">
                         <div className="col-3  col-lg-1" >
-                            <img src={require("./lifeOfPi.jpg")} width="75px" height="100px" />
+                            <img 
+                           // src={require("./lifeOfPi.jpg")}
+                             width="75px" height="100px" />
                         </div>
                         <div className="col">
                             <div className="d-flex flex-column">

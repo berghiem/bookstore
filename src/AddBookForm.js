@@ -1,14 +1,13 @@
-import React, { useState } from "react";
-import { useParams } from "react-router-dom";
-import { useBooks } from "./BookProvider";
-import { Fetch } from "./Fetch";
-import { useInput } from "./useinput";
+import React, { createRef, useRef, useState } from "react";
+
+import { useParams, Navigate, useNavigate } from "react-router-dom";
 import { GrEdit } from "react-icons/gr";
 import { RiDeleteBinFill } from "react-icons/ri";
 import { Link } from "react-router-dom";
 import Slider from "react-slick";
+import { ToastContainer, toast } from 'react-toastify';
 
-export default function AddBookForm() {
+function AddBookForm() {
 
     const settings = {
         dots: true,
@@ -44,66 +43,141 @@ export default function AddBookForm() {
             }
         ]
     };
-    const [titleProps, resetTitle] = useInput("");
-    const [priceProps, resetPrice] = useInput("");
-    const [isbnProps, resetISBN] = useInput("");
-    const [descProps, resetdesc] = useInput("");
-    const [publisherProps, resetpublisher] = useInput("");
-    const [authorProps, resetauthor] = useInput("");
-    const [dimensionProps, resetdimension] = useInput("");
-    const [genreProps, resetgenre] = useInput("");
-    const [pictProps, resetPict] = useInput("");
-    const [statusProps, resetStatus] = useInput("");
-    const [rangeProps, resetRange] = useInput("");
-    const [discProps, resetDisc] = useInput("");
+    const navigate = useNavigate();
+    const [message, setMessage] = useState("");
+    const [title, setTitle] = useState("");
+    const [bookId, setBookId] = useState("");
+    const [price, setPrice] = useState("");
+    const [isbn, setISBN] = useState("");
+    const [description, setdesc] = useState("");
+    const [publisher, setpublisher] = useState("");
+    const [author, setauthor] = useState("");
+    const [dimension, setdimension] = useState("");
+    const [genreId, setgenre] = useState(1);
+    const [printLength, setPrintLength] = useState("");
+    const [publicationDate, setPublicationDate] = useState("");
+    const [language, setlanguage] = useState("");
+    const [picture, setPict] = useState();
+    const [status, setStatus] = useState(0);
+    const [timeRange, setRange] = useState("");
+    const [discount, setDisc] = useState("");
+    const [token, setToken] = useState(localStorage.getItem('token'));
+    const [checked1, setChecked1] = useState(false);
+    const [checked2, setChecked2] = useState(false);
+    const [key, setKey] = useState("image");
+    const fileInput = useRef();
+
+    const handleChange1 = () => {
+        setChecked1(!checked1);
+        setChecked2(false);
+        setStatus(1)
+    }
+
+    const handleChange2 = () => {
+        setChecked2(!checked2);
+        setChecked1(false);
+        setStatus(0)
+    }
 
 
-    /*  const addBook = (title, price, isbn, desc, publisher, author, dimension, genre, language) =>
-          setBooks({
-              title: title,
-              price: price,
-              isbn: isbn,
-              description: desc,
-              publisher: publisher,
-              author: author,
-              dimension: dimension,
-              genre: genre,
-              language: language
-  
-          });*/
+    (() => {
+        'use strict'
+      
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        const forms = document.querySelectorAll('.needs-validation')
+      
+        // Loop over them and prevent submission
+        Array.from(forms).forEach(form => {
+          form.addEventListener('submit', event => {
+            if (!form.checkValidity()) {
+              event.preventDefault()
+              event.stopPropagation()
+            }
+      
+            form.classList.add('was-validated')
+          }, false)
+        })
+      })()
 
-    /*   const submit = event => {
-           event.preventDefault();
-           fetch('https://jsonplaceholder.typicode.com/posts', {
-               method: 'POST',
-               headers: {
-                   Accept: 'application/json',
-                   Authentication: 'Bearer ${token}',
-               },
-               body: JSON.stringify({
-                   title: title .value, 
-                   price: price .value, 
-                   isbn: isbn .value,
-                   description: desc .value,
-                   publisher: publisher .value,
-                   author: author .value,
-                   dimension: dimension .value,
-                   genre: genre .value,
-                   language: lang .value
-               }),
-               
-            }).then
-   
-   
-   
-      //     addBook(title .value, price .value, isbn .value, desc .value, publisher .value, author .value, dimension .value, genre .value, lang .value);
-          
-          
-           setPrice("");
-           setTitle("");
-      // };*/
+    const submitBook = async (e) => {
+        e.preventDefault();
+        setBookId(0)
+        fetch(" http://localhost:8080/api/books", {
+            method: "POST",
+            body: JSON.stringify({
+                bookId, picture, title, isbn, description,
+                publisher, author, printLength, dimension,
+                language, genreId, publicationDate
+            }),
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        }).then(m => m.json())
+            .then(m => {
+                //setMessage(JSON.stringify(m));
+
+                toast(JSON.stringify(m));
+                console.log(`${m}`)
+                //  navigate("/booklist", { state: { m } })
+            })
+            .catch(error => (setMessage(error))
+            );
+    }
+
+    const submitPrice = async (e) => {
+        e.preventDefault();
+
+        //TO DO diganti
+        setBookId(17)
+        setRange("")
+
+        fetch(" http://localhost:8080/api/price", {
+            method: "POST",
+            body: JSON.stringify({
+                bookId, price, status, discount, timeRange
+            }),
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        }).then(m => m.json())
+            .then(m => {
+                console.log(`${m}`)
+                toast(JSON.stringify(m));
+                // navigate("/booklist", { state: { m } })
+            })
+            .catch(error => (setMessage(error))
+            );
+    }
 
 
+    const submitPicture = async (e) => {
+
+        e.preventDefault();
+        console.log(`file input ${fileInput.current.files[0].name}`)
+        console.log(`picture : ${JSON.stringify(picture)}`)
+        //TO DO diganti
+        setBookId(21);
+
+        const data = new FormData();
+        data.append("image", fileInput.current.files[0]);
+
+        fetch(`http://localhost:8080/api/books/uploadImage/2`, {
+            method: "POST",
+            body: data,
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(m => m.json())
+            .then(m => {
+                console.log(`${m}`)
+                toast(JSON.stringify(m));
+                // navigate("/booklist", { state: { m } })
+            })
+            .catch(error => (setMessage(error))
+            );
+    }
 
     return (
         <div className="container mt-3">
@@ -111,7 +185,7 @@ export default function AddBookForm() {
                 <h1 className="col">Add new book</h1>
                 <p>Home &gt;<Link to="/booklist">List Book</Link>  &gt; Add Book</p>
             </div>
-
+            <ToastContainer />
             <div className="accordion" id="accordionExample">
                 <div className="accordion-item">
                     <h2 className="accordion-header" id="headingOne">
@@ -124,16 +198,28 @@ export default function AddBookForm() {
                             <div className="row">
 
                                 <div className="col mx-1 mx-md-4" >
-
-                                    <form   >
+                                <form class=" needs-validation" onSubmit={submitBook} className="needs-validation" noValidate>
                                         <div className="row mb-3">
                                             <label className="col-form-label col-md-2" htmlFor="title">Title</label>
                                             <div className="col">
                                                 <input
-                                                    {...titleProps}
+                                                    value={title}
+                                                    onChange={(e) => setTitle(e.target.value)}
                                                     className="form-control"
                                                     type="text"
-                                                    id="title" />
+                                                    id="title"
+                                                    required />
+                                                <div class="invalid-feedback">
+                                                    Please provide a valid title
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <label for="validationCustom05" class="form-label">Zip</label>
+                                                <input type="text" class="form-control" id="validationCustom05" required />
+                                                    <div class="invalid-feedback">
+                                                        Please provide a valid zip.
+                                                    </div>
                                             </div>
 
 
@@ -142,10 +228,12 @@ export default function AddBookForm() {
                                             <label className="col-form-label col-md-2" htmlFor="isbn">ISBN</label>
                                             <div className="col">
                                                 <input
-                                                    {...isbnProps}
+                                                    value={isbn}
+                                                    onChange={(e) => setISBN(e.target.value)}
                                                     className="form-control"
                                                     type="text"
-                                                    id="isbn" />
+                                                    id="isbn"
+                                                    required />
                                             </div>
                                         </div>
 
@@ -153,20 +241,24 @@ export default function AddBookForm() {
                                             <label className="col-form-label col-md-2" htmlFor="description">Description</label>
                                             <div className="col">
                                                 <textarea
-                                                    {...descProps}
+                                                    value={description}
+                                                    onChange={(e) => setdesc(e.target.value)}
                                                     className="form-control"
                                                     type="text"
-                                                    id="description" />
+                                                    id="description"
+                                                    required />
                                             </div>
                                         </div>
                                         <div className="row mb-3">
-                                            <label className="col-form-label col-md-2" htmlFor="description">Publisher</label>
+                                            <label className="col-form-label col-md-2" htmlFor="publisher">Publisher</label>
                                             <div className="col">
                                                 <input
-                                                    {...publisherProps}
+                                                    value={publisher}
+                                                    onChange={(e) => setpublisher(e.target.value)}
                                                     className="form-control"
                                                     type="text"
-                                                    id="publisher" />
+                                                    id="publisher"
+                                                    required />
                                             </div>
                                         </div>
 
@@ -175,10 +267,12 @@ export default function AddBookForm() {
                                             <label className="col-form-label col-md-2" htmlFor="author">Author</label>
                                             <div className="col">
                                                 <input
-                                                    {...authorProps}
+                                                    value={author}
+                                                    onChange={(e) => setauthor(e.target.value)}
                                                     className="form-control"
                                                     type="text"
-                                                    id="author" />
+                                                    id="author"
+                                                    required />
                                             </div>
                                         </div>
 
@@ -187,10 +281,12 @@ export default function AddBookForm() {
                                             <label className="col-form-label col-md-2" htmlFor="dimension">Dimension</label>
                                             <div className="col">
                                                 <input
-                                                    {...dimensionProps}
+                                                    value={dimension}
+                                                    onChange={(e) => setdimension(e.target.value)}
                                                     className="form-control"
                                                     type="text"
-                                                    id="dimension" />
+                                                    id="dimension"
+                                                    required />
                                             </div>
                                         </div>
 
@@ -211,15 +307,17 @@ export default function AddBookForm() {
                                             <label className="col-form-label col-md-2" htmlFor="language">Language</label>
                                             <div className="col">
                                                 <input
-                                                    {...genreProps}
+                                                    value={language}
+                                                    onChange={(e) => setlanguage(e.target.value)}
                                                     className="form-control"
                                                     type="text"
-                                                    id="genre" />
+                                                    id="genre"
+                                                    required />
                                             </div>
                                         </div>
 
                                         <div className="d-grid gap-2 col-lg-6 mx-auto  mt-5">
-                                            <button type="button" className="btn btn-primary" >Add Book</button>
+                                            <button className="btn btn-primary" >Add Book</button>
                                         </div>
 
                                     </form>
@@ -242,15 +340,17 @@ export default function AddBookForm() {
                             <div className="row">
                                 <div className="col mx-1 mx-md-4" >
 
-                                    <form   >
+                                    <form onSubmit={submitPrice}   >
                                         <div className="row mb-3">
                                             <label className="col-form-label col-md-2" htmlFor="price">Price</label>
                                             <div className="col">
                                                 <input
-                                                    {...priceProps}
+                                                    value={price}
+                                                    onChange={(e) => setPrice(e.target.value)}
                                                     className="form-control"
                                                     type="number"
-                                                    id="price" />
+                                                    id="price"
+                                                    required />
                                             </div>
 
 
@@ -258,26 +358,19 @@ export default function AddBookForm() {
                                         <div className="row mb-3">
                                             <label className="col-form-label col-md-2" htmlFor="isbn">Status</label>
                                             <div className="col">
-                                                <label className="me-2" htmlFor="av">
-                                                    <input
-                                                        {...statusProps}
-                                                        className="form-check-input"
-                                                        type="radio"
-                                                        id="status"
-                                                        value={"availble"}
-                                                        name="av" />
-                                                    availble
-                                                </label>
 
-                                                <label htmlFor="un">
-                                                    <input
-                                                        {...statusProps}
-                                                        className="form-check-input"
-                                                        type="radio"
-                                                        id="status"
-                                                        name="un" />
-                                                    unavailable
-                                                </label>
+                                                <RadioBtn
+                                                    label={"available"}
+                                                    value={checked1}
+                                                    onChange={handleChange1}
+                                                />
+                                                <RadioBtn
+                                                    label={"unavailable"}
+                                                    value={checked2}
+                                                    onChange={handleChange2}
+                                                />
+
+
 
                                             </div>
                                         </div>
@@ -286,12 +379,14 @@ export default function AddBookForm() {
                                             <label className="col-form-label col-md-2" htmlFor="time">Time Range</label>
                                             <div className="col">
                                                 <input
-                                                    {...rangeProps}
+                                                    value={timeRange}
+                                                    onChange={(e) => setRange(e.target.value)}
                                                     type="range" className="form-range"
                                                     id="time"
                                                     min="1"
                                                     max="30"
-                                                    step="1" />
+                                                    step="1"
+                                                    required />
                                             </div>
                                         </div>
 
@@ -300,16 +395,18 @@ export default function AddBookForm() {
                                                 <label className="col-form-label col-md-2" htmlFor="discount">Discount</label>
 
                                                 <input
-                                                    {...discProps}
+                                                    value={discount}
+                                                    onChange={(e) => setDisc(e.target.value)}
                                                     className="form-control"
                                                     type="number"
-                                                    id="discount" />
+                                                    id="discount"
+                                                />
                                                 <span className="input-group-text" id="discount">%</span>
                                             </div>
                                         </div>
 
                                         <div className="d-grid gap-2 col-lg-6 mx-auto  mt-5">
-                                            <button type="button" className="btn btn-primary" >Save Price</button>
+                                            <button className="btn btn-primary" >Save Price</button>
                                         </div>
 
                                     </form>
@@ -324,85 +421,22 @@ export default function AddBookForm() {
                 <div className="accordion-item">
                     <h2 className="accordion-header" id="headingOne">
                         <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseOne">
-                            Edit  Picture
+                            Add Picture
                         </button>
                     </h2>
                     <div id="collapseThree" className="accordion-collapse collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                         <div className="accordion-body">
 
                             <div className="row">
-                                <div className="col">
-                                    <table>
-                                        <thead> <tr> <th></th><th></th><th></th> </tr> 
-                                        </thead>
-                                        <tr>
-                                            <td>
-                                                <div className="card"  >
-                                                    <div className="card-top">
-                                                        <img className="img-fluid" src={require("./jagoinggris.jpg")} />
-                                                    </div>
-                                                    <div className="card-bottom">
-                                                        <div className="d-flex justify-content-between">
-                                                            <GrEdit /> <RiDeleteBinFill />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div className="card"  >
-                                                    <div className="card-top">
-                                                        <img className="img-fluid" src={require("./bukuanak.jpg")} />
-                                                    </div>
-                                                    <div className="card-bottom">
-                                                        <div className="d-flex justify-content-between">
-                                                            <GrEdit /> <RiDeleteBinFill />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div className="card"  >
-                                                    <div className="card-top">
-                                                        <img className="img-fluid" src={require("./jagoarab.jpg")} />
-                                                    </div>
-                                                    <div className="card-bottom">
-                                                        <div className="d-flex justify-content-between">
-                                                            <GrEdit /> <RiDeleteBinFill />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <div className="card"  >
-                                                    <div className="card-top">
-                                                        <img className="img-fluid" src={require("./jagosains.jpeg")} />
-                                                    </div>
-                                                    <div className="card-bottom">
-                                                        <div className="d-flex justify-content-between">
-                                                            <GrEdit /> <RiDeleteBinFill />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div>
-                            <div className="row">
                                 <div className="col mx-1 mx-md-4" >
 
-
-
-                                    <form   >
+                                    <form onSubmit={submitPicture}>
                                         <div className="row mb-3">
                                             <label className="col-form-label col-md-2" htmlFor="picture">Add picture</label>
                                             <div className="col">
                                                 <input
-                                                    {...pictProps}
+                                                    ref={fileInput}
+                                                    // onChange={(e) => setPict(e.target.files[0])}
                                                     className="form-control"
                                                     type="file"
                                                     id="picture" />
@@ -411,11 +445,11 @@ export default function AddBookForm() {
 
 
                                         <div className="d-grid gap-2 col-lg-6 mx-auto  mt-5">
-                                            <button type="button" className="btn btn-primary" >Save Picture</button>
+                                            <button className="btn btn-primary" >Save Picture</button>
                                         </div>
 
                                     </form>
-
+                                    {message}
 
                                 </div>
                             </div>
@@ -425,9 +459,20 @@ export default function AddBookForm() {
             </div>
 
         </div>
-    );
+    )
 
+};
+
+const RadioBtn = ({ label, value, onChange }) => {
+    return (
+        <label>
+            <input type="radio" checked={value} onChange={onChange} />
+            {label}
+        </label>
+    )
 }
+
+export default AddBookForm;
 
 
 
