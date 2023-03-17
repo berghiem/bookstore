@@ -58,6 +58,8 @@ function BookDetail({ data }) {
                     <div>
                     <img 
                     //src={require(`${data.bookModel.picture}`)}
+                    
+                    src={data.bookModel.picture}
                      className="bookDetailpic" />
                     </div>
                     <div className="d-flex justify-content-center mt-3">

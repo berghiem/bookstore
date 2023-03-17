@@ -63,8 +63,7 @@ function AddBookForm() {
     const [discount, setDisc] = useState("");
     const [token, setToken] = useState(localStorage.getItem('token'));
     const [checked1, setChecked1] = useState(false);
-    const [checked2, setChecked2] = useState(false);
-    const [key, setKey] = useState("image");
+    const [checked2, setChecked2] = useState(false); 
     const fileInput = useRef();
 
     const handleChange1 = () => {
@@ -198,7 +197,7 @@ function AddBookForm() {
                             <div className="row">
 
                                 <div className="col mx-1 mx-md-4" >
-                                <form class=" needs-validation" onSubmit={submitBook} className="needs-validation" noValidate>
+                                <form className=" needs-validation" onSubmit={submitBook} noValidate>
                                         <div className="row mb-3">
                                             <label className="col-form-label col-md-2" htmlFor="title">Title</label>
                                             <div className="col">
@@ -209,15 +208,15 @@ function AddBookForm() {
                                                     type="text"
                                                     id="title"
                                                     required />
-                                                <div class="invalid-feedback">
+                                                <div className="invalid-feedback">
                                                     Please provide a valid title
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-3">
-                                                <label for="validationCustom05" class="form-label">Zip</label>
-                                                <input type="text" class="form-control" id="validationCustom05" required />
-                                                    <div class="invalid-feedback">
+                                            <div className="col-md-3">
+                                                <label htmlFor="validationCustom05" className="form-label">Zip</label>
+                                                <input type="text" className="form-control" id="validationCustom05" required />
+                                                    <div className="invalid-feedback">
                                                         Please provide a valid zip.
                                                     </div>
                                             </div>

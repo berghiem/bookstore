@@ -83,7 +83,8 @@ function EditorsChoiceBooks(
                       <div className="d-flex g-0 ">
                         <div className="flex p-0 m-2">
                           <img 
-                         //src={require(`${d.book.picture}`)} 
+                         //src={require(`${d.book.picture}`)}
+                         src={d.book.picture}
                           width="75px" height="100px" alt="..." />
                         </div>
                         <div className="flex-fill">

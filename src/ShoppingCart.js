@@ -8,7 +8,7 @@ export function ShoppingCart() {
             <div className="d-flex py-2 px-1 ">
                 <div className="flex-grow-1">
                     <input class="form-check-input mx-2" type="checkbox" value="" id="flexCheckDefault" />
-                    <label class="form-check-label" for="flexCheckDefault">
+                    <label class="form-check-label" hmtlFor="flexCheckDefault">
                         Pilih semua
                     </label>
                 </div>

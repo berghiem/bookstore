@@ -84,7 +84,7 @@ function Navbargoodreads(
                 <div className="container-fluid">
                     <Link className="navbar-brand" to="/" >
                         <img 
-                        //src={require("./book.png")}
+                        src={require("./book.png")}
                          width="30" height="24" />
                     </ Link>
 

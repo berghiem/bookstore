@@ -72,7 +72,8 @@ export default function BooksHome({
                                         <div className="col">
                                             <div className="card border-0  justify-content-center">
                                                 <img 
-                                                //src={require(`${d.picture}`)}  
+                                                //src={require(`${d.picture}`)} 
+                                                src={d.picture}
                                                 alt="..." className="card-img-top" />
                                                 
                                             </div>

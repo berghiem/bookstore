@@ -21,6 +21,7 @@ export default function Book(
             <td>{id}</td>
             <td>  <img 
                    // src={require(`${picture}`)} 
+                    src={picture}
                     width="75px" height="100px" alt="..." className="rounded"/></td>
             <td>{title} <p className="text-success">{author}</p><p>{publisher}</p></td>
             <td>{price}</td>

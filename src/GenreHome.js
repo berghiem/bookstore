@@ -56,7 +56,10 @@ export default function GenreHome() {
                                     <div className="leftm my-3">
 
                                         {/* {require(`${d.book.picture}`)}
-                              // */}      <img src={require(`${d.picture}`)} width="65px" height="60px" className="rounded-circle" alt="..." />
+                              // */}      <img 
+                                               src={require(`${d.picture}`)} 
+                                             //   src={d.picture}                                               
+                                                width="65px" height="60px" className="rounded-circle" alt="..." />
 
                                         <p className="card-text carddesc text-center" > {d.name} </p>
                                     </div>

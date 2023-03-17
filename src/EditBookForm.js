@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useParams, Navigate, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -9,8 +8,8 @@ export default function EditBookForm() {
     const [bookId, setBookId] = useState("");
     const [title, setTitle] = useState("");
     const [price, setPrice] = useState("");
-    const [status, setStatus] = useState("");
-    const [rangeDate, setRangeDate] = useState("");
+    const [status, setStatus] = useState(0);
+    const [timeRange, setRangeDate] = useState("");
     const [discount, setDiscount] = useState("");
     const [isbn, setISBN] = useState("");
     const [description, setDesc] = useState("");
@@ -22,6 +21,7 @@ export default function EditBookForm() {
     const [printLength, setPrintLength] = useState("");
     const [publicationDate, setPublicationDate] = useState("");
     const [picture, setPict] = useState("");
+    const [picture2, setPict2] = useState("");
     const [language, setlanguage] = useState("");
     const params = useParams();
     const navigate = useNavigate();
@@ -31,6 +31,22 @@ export default function EditBookForm() {
     const [data, setData] = useState();
     const [isSuccess, setSuccess] = useState(false);
     const [message, setMessage] = useState("");
+
+    const [checked1, setChecked1] = useState(false);
+    const [checked2, setChecked2] = useState(false);
+    const fileInput = useRef();
+
+    const handleChange1 = () => {
+        setChecked1(!checked1);
+        setChecked2(false);
+        setStatus(1)
+    }
+
+    const handleChange2 = () => {
+        setChecked2(!checked2);
+        setChecked1(false);
+        setStatus(0)
+    }
 
     useEffect(() => {
         if (!uri) return;
@@ -53,7 +69,8 @@ export default function EditBookForm() {
                 setPublicationDate(data.bookModel.publicationDate == null ? "" : data.bookModel.publicationDate);
                 setPrintLength(data.bookModel.printLength == null ? "" : data.bookModel.printLength);
                 setPict(data.bookModel.picture == null ? "" : data.bookModel.picture);
-                console.log(bookId, title);
+                setPict2(data.bookModel.picture == null ? "" : data.bookModel.picture);
+                console.log(`pict2 ${picture2}`);
             })
             //  .then(() => setLoading(false))
             .catch((
@@ -90,23 +107,67 @@ export default function EditBookForm() {
         }).then(m => m.json())
             .then(m => {
                 //setMessage(JSON.stringify(m));
-              //  toast(JSON.stringify(m));
-                console.log(`${m}`) 
-                navigate("/booklist",{state : {m}})
+                //  toast(JSON.stringify(m));
+                console.log(`${m}`)
+                navigate("/booklist", { state: { m } })
             })
-                       .catch(error => (setMessage(error))
+            .catch(error => (setMessage(error))
             );
 
     };
 
-    // const message = () => {
-    //     if (isSuccess) {
-    //         console.log("berhasil");
-    //         return <Success />;
-    //     }
-    //     console.log("gagal");
-    //     return <Fail />;
-    // }
+    const submitPrice = async (e) => {
+        e.preventDefault();
+
+        setRangeDate("")
+
+        fetch(" http://localhost:8080/api/price", {
+            method: "POST",
+            body: JSON.stringify({
+                bookId, price, status, discount, timeRange
+            }),
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        }).then(m => m.json())
+            .then(m => {
+                console.log(`${m}`)
+                toast(JSON.stringify(m));
+                 navigate("/booklist", { state: { m } })
+            })
+            .catch(error => (setMessage(error))
+            );
+    }
+
+
+    const submitPicture = async (e) => {
+
+        e.preventDefault();
+        console.log(`file input ${fileInput.current.files[0].name}`)
+        console.log(`picture : ${JSON.stringify(picture)}`)
+        //TO DO diganti
+        //setBookId(21);
+
+        const data = new FormData();
+        data.append("image", fileInput.current.files[0]);
+
+        fetch(`http://localhost:8080/api/books/uploadImage/${bookId}`, {
+            method: "POST",
+            body: data,
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        }).then(m => m.json())
+            .then(m => {
+                console.log(`${m}`)
+                toast(JSON.stringify(m));
+                 navigate("/booklist", { state: { m } })
+            })
+            .catch(error => (setMessage(error))
+            );
+    }
+
 
     return (
 
@@ -130,7 +191,7 @@ export default function EditBookForm() {
                                                 <label className="col-form-label col-md-2" htmlFor="id">Id</label>
                                                 <div className="col">
                                                     <input
-                                                        value={bookId == null ? "" : bookId}
+                                                        value={bookId}
                                                         onChange={(e) => setBookId(e.target.value)}
                                                         className="form-control"
                                                         type="text"
@@ -268,173 +329,162 @@ export default function EditBookForm() {
                             </div>
                         </div>
                     </div>
-                    {/* <div className="accordion-item">
-                            <h2 className="accordion-header" id="headingOne">
-                                <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseOne">
-                                    Edit  Pricing
-                                </button>
-                            </h2>
-                            <div id="collapseTwo" className="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                <div className="accordion-body">
+                    <div className="accordion-item">
+                        <h2 className="accordion-header" id="headingOne">
+                            <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseOne">
+                                Edit  Pricing
+                            </button>
+                        </h2>
+                        <div id="collapseTwo" className="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                            <div className="accordion-body">
 
-                                    <div className="row">
-                                        <div className="col mx-1 mx-md-4" >
+                                <div className="row">
+                                    <div className="col mx-1 mx-md-4" >
 
-                                            <form   >
-                                                <div className="row mb-3">
-                                                    <label className="col-form-label col-md-2" htmlFor="id">Id</label>
-                                                    <div className="col">
-                                                        <input
-                                                            value={data.bookId == null ? "" : data.bookId}
-                                                            onChange={(e) => setBookId(e.target.value)}
-                                                            className="form-control"
-                                                            type="text"
-                                                            id="id"
-                                                            disabled />
-                                                    </div>
-
-
-                                                </div>
-                                                <div className="row mb-3">
-                                                    <label className="col-form-label col-md-2" htmlFor="price">Price</label>
-                                                    <div className="col">
-                                                        <input
-                                                            // value={data.pricing.price == null ? "" : data.pricing.price}
-                                                            // onChange={(e) => setPrice(e.target.value)}
-                                                            className="form-control"
-                                                            type="number"
-                                                            id="price" />
-                                                    </div>
-
-
-                                                </div>
-                                                <div className="row mb-3">
-                                                    <label className="col-form-label col-md-2" htmlFor="isbn">Status</label>
-                                                    <div className="col">
-                                                        <div className="col">
-                                                            <label className="me-2" htmlFor="av">
-                                                                <input
-                                                                    className="form-check-input"
-                                                                    type="radio"
-                                                                    id="status"
-                                                                    value={"available"}
-                                                                    name="av" />
-                                                                availble
-                                                            </label>
-
-                                                            <label htmlFor="un">
-                                                                <input
-                                                                    className="form-check-input"
-                                                                    type="radio"
-                                                                    id="status"
-                                                                    name="un"
-                                                                    value={"un"} />
-                                                                unavailable
-                                                            </label>
-
-                                                        </div>
-                                                    </div>
-
+                                        <form   onSubmit={submitPrice}>
+                                            <div className="row mb-3">
+                                                <label className="col-form-label col-md-2" htmlFor="id">Id</label>
+                                                <div className="col">
+                                                    <input
+                                                        value={bookId}
+                                                        onChange={(e) => setBookId(e.target.value)}
+                                                        className="form-control"
+                                                        type="text"
+                                                        id="id"
+                                                        disabled />
                                                 </div>
 
 
-
-
-
-                                                <div className="row mb-3">
-                                                    <label className="col-form-label col-md-2" htmlFor="time">Time Range</label>
-                                                    <div className="col">
-                                                        <input
-                                                            onChange={(e) => setRangeDate(e.target.value)}
-                                                            type="range" className="form-range"
-                                                            id="time"
-                                                            min="1"
-                                                            max="30"
-                                                            step="1" />
-                                                    </div>
+                                            </div>
+                                            <div className="row mb-3">
+                                                <label className="col-form-label col-md-2" htmlFor="price">Price</label>
+                                                <div className="col">
+                                                    <input
+                                                        value={price}
+                                                        onChange={(e) => setPrice(e.target.value)}
+                                                        className="form-control"
+                                                        type="number"
+                                                        id="price" />
                                                 </div>
 
-                                                <div className="row mb-4">
-                                                    <div className="input-group flex-nowrap col-md-4">
-                                                        <label className="col-form-label col-md-2" htmlFor="discount">Discount</label>
 
-                                                        <input
-                                                            onChange={(e) => setDiscount(e.target.value)}
-                                                            className="form-control"
-                                                            type="number"
-                                                            id="discount" />
-                                                        <span className="input-group-text" id="discount">%</span>
-                                                    </div>
+                                            </div>
+                                            <div className="row mb-3">
+                                                <label className="col-form-label col-md-2" htmlFor="isbn">Status</label>
+                                                <div className="col">
+
+                                                    <RadioBtn
+                                                        label={"available"}
+                                                        value={checked1}
+                                                        onChange={handleChange1}
+                                                    />
+                                                    <RadioBtn
+                                                        label={"unavailable"}
+                                                        value={checked2}
+                                                        onChange={handleChange2}
+                                                    />
+
+
+
                                                 </div>
+                                            </div>
 
-                                                <div className="d-grid gap-2 col-lg-6 mx-auto  mt-5">
-                                                    <button type="button" className="btn btn-primary" >Save Price</button>
+
+
+
+
+                                            <div className="row mb-3">
+                                                <label className="col-form-label col-md-2" htmlFor="time">Time Range</label>
+                                                <div className="col">
+                                                    <input
+                                                        value={timeRange}
+                                                        onChange={(e) => setRangeDate(e.target.value)}
+                                                        type="range" className="form-range"
+                                                        id="time"
+                                                        min="1"
+                                                        max="30"
+                                                        step="1"
+                                                        required />
                                                 </div>
+                                            </div>
 
-                                            </form>
+                                            <div className="row mb-4">
+                                                <div className="input-group flex-nowrap col-md-4">
+                                                    <label className="col-form-label col-md-2" htmlFor="discount">Discount</label>
+
+                                                    <input
+                                                        value={discount}
+                                                        onChange={(e) => setDiscount(e.target.value)}
+                                                        className="form-control"
+                                                        type="number"
+                                                        id="discount"
+                                                    />
+                                                    <span className="input-group-text" id="discount">%</span>
+                                                </div>
+                                            </div>
+                                            <div className="d-grid gap-2 col-lg-6 mx-auto  mt-5">
+                                                <button  className="btn btn-primary" >Save Price</button>
+                                            </div>
+
+                                        </form>
 
 
-                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </div>
 
-                        <div className="accordion-item">
-                            <h2 className="accordion-header" id="headingOne">
-                                <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseOne">
-                                    Edit  Picture
-                                </button>
-                            </h2>
-                            <div id="collapseThree" className="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                <div className="accordion-body">
+                    <div className="accordion-item">
+                        <h2 className="accordion-header" id="headingOne">
+                            <button className="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseOne">
+                                Edit  Picture
+                            </button>
+                        </h2>
+                        <div id="collapseThree" className="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                            <div className="accordion-body">
 
-                                    <div className="row">
-                                        <div className="col mx-1 mx-md-4" >
+                                <div className="row">
+                                    <div className="col mx-1 mx-md-4" >
 
-                                            <form   >
-                                                <div className="row mb-3">
-                                                    <label className="col-form-label col-md-2" htmlFor="id">Id</label>
-                                                    <div className="col">
-                                                        <input
-                                                            value={data.bookId == null ? "" : data.bookId}
-                                                            onChange={(e) => setBookId(e.target.value)}
-                                                            className="form-control"
-                                                            type="text"
-                                                            id="id"
-                                                            disabled />
-                                                    </div>
+                                        <form onSubmit={submitPicture}>
+                                            <div className="row mb-3">
 
-
-                                                </div>
-                                                <div className="row mb-3">
-                                                    <label className="col-form-label col-md-2" htmlFor="picture">Picture</label>
-                                                    <div className="col">
-                                                        <input
-                                                            value={data.picture == null ? "" : data.picture}
-                                                            onChange={(e) => setPict(e.target.value)}
-                                                            className="form-control"
-                                                            type="file"
-                                                            id="picture" />
-                                                    </div>
+                                                <div className="col-3  col-lg-1" >
+                                                    <img
+                                                       // src={require(`${picture2}`)}
+                                                       src={picture2}
+                                                        width="75px" height="100px" />
                                                 </div>
 
 
-                                                <div className="d-grid gap-2 col-lg-6 mx-auto  mt-5">
-                                                    <button type="button" className="btn btn-primary" >Save Picture</button>
+                                                <label className="col-form-label col-md-2" htmlFor="picture">Change picture</label>
+                                                <div className="col">
+                                                    <input
+                                                        ref={fileInput}
+                                                        // onChange={(e) => setPict(e.target.files[0])}
+                                                        className="form-control"
+                                                        type="file"
+                                                        id="picture" />
                                                 </div>
+                                            </div>
 
-                                            </form>
+
+                                            <div className="d-grid gap-2 col-lg-6 mx-auto  mt-5">
+                                                <button   className="btn btn-primary" >Save Picture and back to booklist </button>
+                                            </div>
+
+                                        </form>
 
 
-                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div> */}
+                        </div>
+                    </div>
                 </div>
-            </div>
- 
+            </div >
+
 
         </>
 
@@ -448,15 +498,15 @@ export default function EditBookForm() {
 
 }
 
-const Success = () => (
-    <> <p>Berhasil Update</p></>
+const RadioBtn = ({ label, value, onChange }) => {
+    return (
+        <label>
+            <input type="radio" checked={value} onChange={onChange} />
+            {label}
+        </label>
+    )
+}
 
-);
 
-const Fail = () => (
-    <><p>Gagal Update</p>
-    </>
-
-);
 
 
