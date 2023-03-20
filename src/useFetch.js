@@ -3,8 +3,7 @@ import { useEffect, useState } from "react";
 export function useFetch(uri){
     const [data,setData] = useState();
     const [error, setError] = useState();
-    const [loading, setLoading] = useState();
-    console.log(`uri usefetch: ${uri} `);
+    const [loading, setLoading] = useState(); 
    
     useEffect(()=>{
         if(!uri) return;

@@ -14,6 +14,7 @@ import { Navigate, useNavigate } from 'react-router-dom';
 const initialState = {
     token: localStorage.getItem('token'),
     isAuthenticated: null,
+    doneRegister : null,
     loading: true,
     user: null,
     books : null,
@@ -33,9 +34,24 @@ export default function auth(state = initialState, action) {
                
             }
         case LOGIN_PASS:
+            localStorage.setItem('token', payload.accessToken);
             console.log(`action ${action.payload.roles}`);
-            localStorage.setItem('roles', payload.roles);
-            
+            localStorage.setItem('roles', payload.roles); 
+            return{ 
+                ... state ,             
+               ...payload, 
+               isAuthenticated : true,
+               loading: false,
+               user: payload,
+               roles : action.payload.roles,
+               [action.payload.key] : action.payload.value,}
+
+            // return{
+            //     ...state,
+            //     doneRegister : true
+            // }
+
+
         case REG_PASS:
             localStorage.setItem('token', payload.accessToken);
             console.log("token reg pass");
@@ -43,8 +59,8 @@ export default function auth(state = initialState, action) {
             console.log(localStorage.getItem('token'));
             return {
                 ...state,
-                ...payload,
-                isAuthenticated: true,
+                ...payload, 
+                isAuthenticated : true,
                 loading: false,
                 user: payload,
                 [action.payload.key] : action.payload.value,
@@ -62,6 +78,7 @@ export default function auth(state = initialState, action) {
         case LOGIN_FAIL:
         case LOGOUT:
               localStorage.removeItem('token');
+              localStorage.removeItem('roles');
               return {
                   ...state,
                   token: null,

@@ -37,6 +37,7 @@ import BooksHome from './BooksHome';
 import AddReview from './AddReview';
 import AdminDashboard from './AdminDashboard';
 import UserList from './UserList';
+import EditUser from './EditUser';
 
 
 if (localStorage.token) {
@@ -49,7 +50,7 @@ function App() {
   }, []);
 
   const [roleof, setRole] = useState(localStorage.getItem("roles"));
-
+ // console.log(`ini App JS , roles ${roleof}`);
 
   return (
     <>
@@ -67,18 +68,14 @@ function App() {
 
             <Route path='/booklist' element={
               <ProtectedRoute redirectPath="/"
-                isAllowed={
-                  !!roleof && roleof.includes('ADMIN')
-                }>
+                role = 'ADMIN' >
                 <Booklist />
               </ProtectedRoute>}>
             </Route>
 
             <Route path="/admindashboard" element={
               <ProtectedRoute redirectPath="/"
-                isAllowed={
-                  !!roleof && roleof.includes('ADMIN')
-                }>
+              role = 'ADMIN' >
                 <AdminDashboard />
               </ProtectedRoute>}>
             </Route>
@@ -86,50 +83,45 @@ function App() {
 
             <Route path='/addBook' element={
               <ProtectedRoute redirectPath="/"
-                isAllowed={
-                  !!roleof && roleof.includes('ADMIN')
-                }>
+              role = 'ADMIN' >
                 <AddBookForm />
               </ProtectedRoute>}>
             </Route>
 
             <Route path='/editBook/:id' element={
               <ProtectedRoute redirectPath="/"
-                isAllowed={
-                  !!roleof && roleof.includes('ADMIN')
-                }>
+              role = 'ADMIN' >
                 <EditBookForm />
               </ProtectedRoute>} >
             </Route>
 
             <Route path='/genrelist' element={
               <ProtectedRoute redirectPath="/"
-                isAllowed={
-                  !!roleof && roleof.includes('ADMIN')
-                }>
+              role = 'ADMIN' >
                 <GenreList />
               </ProtectedRoute>} >
             </Route>
 
             <Route path='/editgenre/:id' element={
               <ProtectedRoute redirectPath="/"
-                isAllowed={
-                  !!roleof && roleof.includes('ADMIN')
-                }>
+              role = 'ADMIN' >
                 <EditGenre />
               </ProtectedRoute>} >
             </Route>
 
             <Route path='/userlist' element={
               <ProtectedRoute redirectPath="/"
-                isAllowed={
-                  !!roleof && roleof.includes('ADMIN')
-                }>
+              role = 'ADMIN' >
                 <UserList />
               </ProtectedRoute>} >
             </Route>
 
-            
+            <Route path='/editUser/:id' element={
+              <ProtectedRoute redirectPath="/"
+              role = 'ADMIN' >
+                <EditUser />
+              </ProtectedRoute>} >
+            </Route>
 
             <Route path='/review' element={<MyReviewList />} > </Route>
             <Route path='/shoppingCart' element={<ShoppingCart />}> </Route>
@@ -138,9 +130,7 @@ function App() {
 
             <Route path='/choiceBook' element={
               <ProtectedRoute redirectPath="/"
-                isAllowed={
-                  !!roleof && roleof.includes('EDITOR')
-                }>
+              role = 'EDITOR' >
                 <MyChoicesBook />
               </ProtectedRoute>  }> 
             </Route>

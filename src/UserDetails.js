@@ -28,7 +28,7 @@ export default function UserDetails (
      <td>{joindate}</td>
      <td>
                 
-                    <Link to={`/editBook/${id}`}
+                    <Link to={`/editUser/${id}`}
                         // onClick={()=>editBook(id)}
                        //  className="btn btn-primary btn-sm   "
                          >

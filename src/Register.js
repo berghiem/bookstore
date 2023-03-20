@@ -1,13 +1,14 @@
 
 import { useInput } from "./useinput";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { connect, Connect } from "react-redux";
 import { register } from "./action/auth";
 import { PropTypes } from "prop-types";
 
  function Register({
-    register
+    register,
+    doneRegister
 }) {
     const [formData, updateFormData] = useState({
         name: '',
@@ -32,6 +33,12 @@ import { PropTypes } from "prop-types";
         register({username,email,password});   
 
     }
+
+    if(doneRegister){ 
+        return <Navigate replace to="/login" />;
+    } 
+
+    console.log(`register isauth : ${doneRegister}`);
 
     return (
         <>
@@ -155,9 +162,15 @@ import { PropTypes } from "prop-types";
     );
 };
 
+
 Register.propTypes ={
     register : PropTypes.func.isRequired,
+    doneRegister : PropTypes.bool
 };
 
-export default connect(null, {register})(Register);
+const mapStateToProps = state =>({
+    doneRegister: state.auth.doneRegister
+});
+
+export default connect(mapStateToProps, {register})(Register);
 

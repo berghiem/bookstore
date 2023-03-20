@@ -6,12 +6,26 @@ import { BsSearch } from 'react-icons/bs';
 import { Link } from "react-router-dom";
 import UserDetails from "./UserDetails";
 import { FetchHeader } from "./FetchHeader";
+import { useLocation } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function UserList() {
+
+    var { state } = useLocation();
+
+    if (state) {
+        console.log(`uselocation : ${JSON.stringify(state)}`)
+        var { m } = state;
+        console.log(`m : ${JSON.stringify(m)}`)
+        var { message } = m;
+        console.log(`message : ${JSON.stringify(message)}`)
+        toast(message)
+    }
 
     return (
 
         <>
+            <ToastContainer />
             <div className="row  m-4">
                 <h2>All User</h2>
                 <p>Home &gt; All User</p>
@@ -32,20 +46,20 @@ export default function UserList() {
             </div>
 
 
-            <FetchHeader 
+            <FetchHeader
                 uri={'http://localhost:8080/api/users'}
                 typemethod={'GET'}
                 bodys={''}
                 renderSuccess={({ data }) => (
                     <table className="table table-striped">
                         <thead>
-                            <tr><th>id</th> 
+                            <tr><th>id</th>
                                 <th>Username</th>
                                 <th>Name</th>
                                 <th>Email</th>
                                 <th>Role</th>
                                 <th>joinDate</th>
-                                
+
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -53,12 +67,12 @@ export default function UserList() {
                             {data.map((b, index) => (
                                 <tr key={index}>
                                     <UserDetails
-                                        id={b.idUser} 
+                                        id={b.idUser}
                                         username={b.username}
                                         name={b.name}
                                         email={b.email}
                                         role={b.role.nama}
-                                        joindate={b.joinDate}                                        
+                                        joindate={b.joinDate}
                                     />
                                 </tr>
                             ))}

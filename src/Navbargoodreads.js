@@ -10,7 +10,8 @@ import { useNavigate } from 'react-router-dom';
 
 function Navbargoodreads(
     {
-        auth: { isAuthenticated, loading, user, roles, email },
+        isAuthenticated,
+        roles,
         logout
     }
 
@@ -18,6 +19,8 @@ function Navbargoodreads(
 
     const navigate = useNavigate();
     const roless = JSON.stringify(roles);
+console.log(`ini navbar : ${roles}`)
+
     const logoutEvent = () => {
         navigate("/");
         logout();
@@ -78,7 +81,7 @@ function Navbargoodreads(
         <>
 
 
-            {console.log(`user roless :${typeof roles}  ${(roless.includes('ADMIN'))}`)}
+           {/* {console.log(`user roless :${typeof roles}  ${(roless.includes('ADMIN'))}`)} */}
             <nav className="navbar navbar-expand-lg navbar-light" style={{ backgroundColor: "lightskyblue" }}>
 
                 <div className="container-fluid">
@@ -96,7 +99,8 @@ function Navbargoodreads(
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav">
 
-                            {!loading && (<div>{isAuthenticated ? authLinks : guestLinks}</div>)}
+                            {/* //{!loading && (<div>{isAuthenticated ? authLinks : guestLinks}</div>)} */}
+                            <div>{isAuthenticated ? authLinks : guestLinks}</div>
 
                             {roleLinks(roless)}
 
@@ -141,11 +145,13 @@ const User = () => (
 
 Navbargoodreads.propTypes = {
     logout: PropTypes.func.isRequired,
-    auth: PropTypes.object.isRequired
+    isAuthenticated : PropTypes.bool,
+    roles : PropTypes.string
 };
 
 const mapStateToProps = state => ({
-    auth: state.auth
+    isAuthenticated: state.auth.isAuthenticated,
+    roles : state.auth.roles
 });
 
 

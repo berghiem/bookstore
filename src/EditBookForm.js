@@ -26,7 +26,6 @@ export default function EditBookForm() {
     const params = useParams();
     const navigate = useNavigate();
     const [token, setToken] = useState(localStorage.getItem('token'));
-    const uri = ` http://localhost:8080/api/books/dash/${params.id.toString()}`
 
     const [data, setData] = useState();
     const [isSuccess, setSuccess] = useState(false);
@@ -49,44 +48,38 @@ export default function EditBookForm() {
     }
 
     useEffect(() => {
-        if (!uri) return;
-        fetch(uri, {
-            method: "GET",
-            headers: { 'Authorization': `Bearer ${token}` }
-        })
-            .then(data => data.json())
-            .then(data => {
-                setBookId(data.bookModel.bookId == null ? "" : data.bookModel.bookId);
-                setTitle(data.bookModel.title == null ? "" : data.bookModel.title);
-                setAuthor(data.bookModel.author == null ? "" : data.bookModel.author);
-                setISBN(data.bookModel.isbn == null ? "" : data.bookModel.isbn);
-                setDesc(data.bookModel.description == null ? "" : data.bookModel.description);
-                setdimension(data.bookModel.dimension == null ? "" : data.bookModel.dimension);
-                setlanguage(data.bookModel.language == null ? "" : data.bookModel.language);
-                setpublisher(data.bookModel.publisher == null ? "" : data.bookModel.publisher);
-                setPrice(data.pricing[0].price == null ? "" : data.pricing[0].price);
-                setgenreId(data.bookModel.genreId == null ? "" : data.bookModel.genreId);
-                setPublicationDate(data.bookModel.publicationDate == null ? "" : data.bookModel.publicationDate);
-                setPrintLength(data.bookModel.printLength == null ? "" : data.bookModel.printLength);
-                setPict(data.bookModel.picture == null ? "" : data.bookModel.picture);
-                setPict2(data.bookModel.picture == null ? "" : data.bookModel.picture);
-                console.log(`pict2 ${picture2}`);
-            })
-            //  .then(() => setLoading(false))
-            .catch((
-                <pre>eror kenapa</pre>
-            ));
+        if (params) {
+            const uri = ` http://localhost:8080/api/books/dash/${params.id.toString()}`
 
-        // fetch(uri, {
-        //     method: "GET",
-        //     headers: { 'Authorization': `Bearer ${token}` }
-        // }).then(data => data.json())
-        //     .then(data => {
-        //         setgenre(data.name);
-        //     })
-        //     .catch((
-        //         <pre>eror genre kenapa</pre>
-        //     ));
+            fetch(uri, {
+                method: "GET",
+                headers: { 'Authorization': `Bearer ${token}` }
+            })
+                .then(data => data.json())
+                .then(data => {
+                    setBookId(data.bookModel.bookId == null ? "" : data.bookModel.bookId);
+                    setTitle(data.bookModel.title == null ? "" : data.bookModel.title);
+                    setAuthor(data.bookModel.author == null ? "" : data.bookModel.author);
+                    setISBN(data.bookModel.isbn == null ? "" : data.bookModel.isbn);
+                    setDesc(data.bookModel.description == null ? "" : data.bookModel.description);
+                    setdimension(data.bookModel.dimension == null ? "" : data.bookModel.dimension);
+                    setlanguage(data.bookModel.language == null ? "" : data.bookModel.language);
+                    setpublisher(data.bookModel.publisher == null ? "" : data.bookModel.publisher);
+                    setPrice(data.pricing[0].price == null ? "" : data.pricing[0].price);
+                    setgenreId(data.bookModel.genreId == null ? "" : data.bookModel.genreId);
+                    setPublicationDate(data.bookModel.publicationDate == null ? "" : data.bookModel.publicationDate);
+                    setPrintLength(data.bookModel.printLength == null ? "" : data.bookModel.printLength);
+                    setPict(data.bookModel.picture == null ? "" : data.bookModel.picture);
+                    setPict2(data.bookModel.picture == null ? "" : data.bookModel.picture);
+                    console.log(`pict2 ${picture2}`);
+                })
+                //  .then(() => setLoading(false))
+                .catch((
+                    <pre>eror kenapa</pre>
+                ));
+        }
+
+ 
 
     }, []);
 
@@ -134,7 +127,7 @@ export default function EditBookForm() {
             .then(m => {
                 console.log(`${m}`)
                 toast(JSON.stringify(m));
-                 navigate("/booklist", { state: { m } })
+                navigate("/booklist", { state: { m } })
             })
             .catch(error => (setMessage(error))
             );
@@ -162,7 +155,7 @@ export default function EditBookForm() {
             .then(m => {
                 console.log(`${m}`)
                 toast(JSON.stringify(m));
-                 navigate("/booklist", { state: { m } })
+                navigate("/booklist", { state: { m } })
             })
             .catch(error => (setMessage(error))
             );
@@ -341,7 +334,7 @@ export default function EditBookForm() {
                                 <div className="row">
                                     <div className="col mx-1 mx-md-4" >
 
-                                        <form   onSubmit={submitPrice}>
+                                        <form onSubmit={submitPrice}>
                                             <div className="row mb-3">
                                                 <label className="col-form-label col-md-2" htmlFor="id">Id</label>
                                                 <div className="col">
@@ -423,7 +416,7 @@ export default function EditBookForm() {
                                                 </div>
                                             </div>
                                             <div className="d-grid gap-2 col-lg-6 mx-auto  mt-5">
-                                                <button  className="btn btn-primary" >Save Price</button>
+                                                <button className="btn btn-primary" >Save Price</button>
                                             </div>
 
                                         </form>
@@ -452,8 +445,8 @@ export default function EditBookForm() {
 
                                                 <div className="col-3  col-lg-1" >
                                                     <img
-                                                       // src={require(`${picture2}`)}
-                                                       src={picture2}
+                                                        // src={require(`${picture2}`)}
+                                                        src={picture2}
                                                         width="75px" height="100px" />
                                                 </div>
 
@@ -471,7 +464,7 @@ export default function EditBookForm() {
 
 
                                             <div className="d-grid gap-2 col-lg-6 mx-auto  mt-5">
-                                                <button   className="btn btn-primary" >Save Picture and back to booklist </button>
+                                                <button className="btn btn-primary" >Save Picture and back to booklist </button>
                                             </div>
 
                                         </form>

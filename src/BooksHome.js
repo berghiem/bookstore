@@ -46,14 +46,14 @@ export default function BooksHome({
 
 
     const params = useParams();
-    console.log(`params : ${JSON.stringify(params)}`);
+    //console.log(`params : ${JSON.stringify(params)}`);
     const url = genreId ?
         `http://localhost:8080/api/books/dash/genre/${genreId.toString()}` :
         `http://localhost:8080/api/books/dash/genre/${params.id.toString()}`;
 
     const name = genreName ? genreName : params.name.toString();
 
-    console.log(`url : ${url}`);
+    //console.log(`url : ${url}`);
     return (
         <>
 

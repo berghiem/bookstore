@@ -24,20 +24,7 @@ export default function Booklist(
         toast(message)
     }
 
-
-    var notify = (state) ={
-        if(state){
-             console.log(`state dari sebelumnya : ${state}`)
-          //  const {message} = state;
-           
-        }
-    }
  
-    // const notify = (message) => {s
-    //      if(message){
-    //         toast(message)
-    //      }
-    // }
 
     return (
 
