@@ -28,10 +28,10 @@ export default function UserList() {
             <ToastContainer />
             <div className="row  m-4">
                 <h2>All User</h2>
-                <p>Home &gt; All User</p>
+                <p>Dashboard &gt; All User</p>
             </div>
             <div className=" d-flex p-3">
-                <div> <Link to="/addBook" className="btn btn-primary px-3">Add User</Link>
+                <div> <Link to="/register" className="btn btn-primary px-3">Add User</Link>
                 </div>
                 <div className="flex-grow-1">
                     {/* Search Form */}
