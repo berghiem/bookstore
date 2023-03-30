@@ -96,7 +96,7 @@ export function ViewBookDetail(
         <div className="container mt-3 mt-lg-5 ">
             <div className="d-lg-flex justify-content-center">
                 <div className="d-flex flex-column justify-content-center">
-                    <div style={{maxHeight: 300}}>
+                    <div style={{ maxHeight: 300 }}>
                         <img
                             //src={require(`${data.bookModel.picture}`)}
 
@@ -162,30 +162,35 @@ export function ViewBookDetail(
 
                     <div className="row">
 
-                        {reviews.map((b, index) => (
-                           <div key={b}>
-                           <div className="col-3  col-lg-1" >
-                              <img
-                                  // src={require("./lifeOfPi.jpg")}
-                                  width="75px" height="100px" />
-                      </div>
-                      <div className="col">
-                              <div className="d-flex flex-column">
-                                  <div><StarRating /></div>
-                                  <span className="mb-1">{b.review}
-                                  </span>
-                                  <span className="authorrev mb-1">{b.userId}</span>
+                        {reviews != null && 
+                            reviews.map((b, index) => (
+                                <div key={b}>
+                                    <div className="col-3  col-lg-1" >
+                                        <img
+                                            // src={require("./lifeOfPi.jpg")}
+                                            width="75px" height="100px" />
+                                    </div>
+                                    <div className="col">
+                                        <div className="d-flex flex-column">
+                                            <div><StarRating /></div>
+                                            <span className="mb-1">{b.review}
+                                            </span>
+                                            <span className="authorrev mb-1">{b.userId}</span>
 
-                              </div>
-                      </div>
-                      </div>   
+                                        </div>
+                                    </div>
+                                </div>
 
-                        ))}
+                            ))
+                        
+                        }
 
-                             
-                           
+
+
+
+
                     </div>
-                </div> 
+                </div>
             </div>
         </div>
 
